@@ -21,7 +21,7 @@ def vacancy_1():
     return Vacancy(
         name='Тестировщик Python',
         url='https://hh.ru/vacancy/1',
-        salary=140000,
+        salary=140000
     )
 
 @pytest.fixture
@@ -33,15 +33,9 @@ def vacancy_2():
         description='Удаленная работа'
     )
 
-@pytest.fixture
-def vacancy_error_1():
-    return Vacancy(
-        url='https://hh.ru/vacancy/err1',
-        salary=120000
-    )
 
 @pytest.fixture
-def vacancy_error_2():
+def vacancy_salary():
     return Vacancy(
         name='Разработчик Python',
         url='https://hh.ru/vacancy/err2',
