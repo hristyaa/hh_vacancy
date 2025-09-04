@@ -8,6 +8,7 @@ from src.hh_api import VacancyAPI
 
 def test_vacancy_api_init(vacancy_api_1, vacancy_api_2):
     '''Тест на инициализацию класса HeadHunterAPI'''
+    assert isinstance(vacancy_api_1, VacancyAPI)
     assert vacancy_api_1._VacancyAPI__base_url == 'https://api.hh.ru/vacancies'
     assert vacancy_api_1.headers == {"User-Agent": "Custom-Agent"}
     assert vacancy_api_2._VacancyAPI__base_url == 'https://api.hh.ru/vacancies'
@@ -37,15 +38,15 @@ def test_connect_to_api_error(vacancy_api_1, capsys):
         assert result == None
         capsys.readouterr()
         assert 'RequestException(f"Ошибка API запроса : 500")'
-
+        assert str(vacancy_api_1) == 'HeadHunterAPI (Найдено вакансий: 0)'
 
 def test_get_vacancies(vacancy_api_1):
     """Тест успешного получения вакансий"""
-    test_data = [{"id":"93353083","name":"Тестировщик Python"}]
+    test_data = {"items":[{"id":"93353083","name":"Тестировщик Python"}]}
 
     with patch.object(vacancy_api_1, "_VacancyAPI__load_vacancies", return_value=test_data):
 
         vacancies = vacancy_api_1.get_vacancies(keyword="Python")
-        assert isinstance(vacancies, list)
+        assert isinstance(vacancies, dict)
         assert len(vacancies) > 0
-        assert vacancies[0]["name"] == "Тестировщик Python"
+        assert vacancies["items"][0]["name"] == "Тестировщик Python"

@@ -89,6 +89,7 @@ hh_api = HeadHunterAPI()
 hh_vacancies = hh_api.get_vacancies(keyword="Python")
 
 print(hh_api)
+
 # print(hh_vacancies)
 
 
