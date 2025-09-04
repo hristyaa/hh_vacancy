@@ -44,10 +44,14 @@ class HeadHunterAPI(VacancyAPI):
     """
     def __init__(self, base_url='https://api.hh.ru/vacancies', headers=None):
         """Инициализация класса HeadHunterAPI"""
-        self.headers = {'User-Agent': 'HH-User-Agent'}
+        self.headers = headers or {'User-Agent': 'HH-User-Agent'}
         super().__init__(base_url, headers)
         self.__params = {'text': '', 'page': 0, 'per_page': 100}
         self.__vacancies = []
+
+    def __str__(self):
+        # Печатаем количество найденных вакансий
+        return f"HeadHunterAPI (Найдено вакансий: {len(self.__vacancies)})"
 
     def _VacancyAPI__load_vacancies(self, keyword):
         """ Метод для получения вакансий по ключевому слову"""
@@ -60,9 +64,7 @@ class HeadHunterAPI(VacancyAPI):
             self.__params['page'] += 1
         return self.__vacancies
 
-    def __str__(self):
-        # Печатаем количество вакансий и первые несколько вакансий
-        return f"HeadHunterAPI (Найдено вакансий: {len(self.__vacancies)})"
+
 
 # hh_api = HeadHunterAPI()
 # # Пример ключевого слова для поиска вакансий
@@ -87,6 +89,7 @@ hh_api = HeadHunterAPI()
 hh_vacancies = hh_api.get_vacancies(keyword="Python")
 
 print(hh_api)
+# print(hh_vacancies)
 
 
 
