@@ -1,7 +1,8 @@
-import requests
-
 from abc import ABC, abstractmethod
+
+import requests
 from requests.exceptions import RequestException
+
 
 class VacancyAPI(ABC):
     """
@@ -42,11 +43,12 @@ class HeadHunterAPI(VacancyAPI):
     Класс для работы с API HeadHunter
     Класс VacancyAPI является родительским классом
     """
-    def __init__(self, base_url='https://api.hh.ru/vacancies', headers=None):
+
+    def __init__(self, base_url="https://api.hh.ru/vacancies", headers=None):
         """Инициализация класса HeadHunterAPI"""
-        self.headers = headers or {'User-Agent': 'HH-User-Agent'}
+        self.headers = headers or {"User-Agent": "HH-User-Agent"}
         super().__init__(base_url, headers)
-        self.__params = {'text': '', 'page': 0, 'per_page': 100}
+        self.__params = {"text": "", "page": 0, "per_page": 100}
         self.__vacancies = []
 
     def __str__(self):
@@ -54,16 +56,15 @@ class HeadHunterAPI(VacancyAPI):
         return f"HeadHunterAPI (Найдено вакансий: {len(self.__vacancies)})"
 
     def _VacancyAPI__load_vacancies(self, keyword):
-        """ Метод для получения вакансий по ключевому слову"""
-        self.__params['text'] = keyword
-        while self.__params.get('page') != 20:
+        """Метод для получения вакансий по ключевому слову"""
+        self.__params["text"] = keyword
+        while self.__params.get("page") != 20:
             # response = requests.get(self.__base_url, headers=self.headers, params=self.__params)
             response = self._VacancyAPI__connect_to_api(self.__params)
-            vacancies = response['items']
+            vacancies = response["items"]
             self.__vacancies.extend(vacancies)
-            self.__params['page'] += 1
+            self.__params["page"] += 1
         return self.__vacancies
-
 
 
 # hh_api = HeadHunterAPI()
@@ -91,7 +92,3 @@ hh_vacancies = hh_api.get_vacancies(keyword="Python")
 print(hh_api)
 
 # print(hh_vacancies)
-
-
-
-
