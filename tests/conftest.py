@@ -49,3 +49,20 @@ def hh_vacancies():
             "snippet": {"requirement": "Опыт работы с Java", "responsibility": "Разработка веб-сервисов Java"},
         },
     ]
+
+@pytest.fixture
+def hh_vacancies_Vacancy():
+    return [
+        Vacancy(
+            name="Python Developer",
+            url="https://hh.ru/vacancy/123",
+            salary={"from": 120000, "to": 150000, "currency": "RUR"},
+            description="Опыт работы с Django. Разработка веб-сервисов",
+        ),
+        Vacancy(
+            name="Java Developer",
+            url="https://hh.ru/vacancy/321",
+            salary={"from": 140000, "to": 190000, "currency": "RUR"},
+            description="Опыт работы с Java. Разработка веб-сервисов Java",
+        )
+    ]

@@ -25,7 +25,7 @@ def test_file_saver_init(tmp_path):
 
 
 def test_add_vacancy(tmp_path):
-    """Тест на добавление вакансий"""
+    """Тест на добавление вакансии"""
     filename = tmp_path / "test_vacancies.json"
     saver = JSONSaver(filename=str(filename))
 
@@ -53,3 +53,32 @@ def test_add_vacancy(tmp_path):
         data_after = json.load(f)
 
     assert len(data_after) == 1  # дубликат не записан
+
+
+def test_add_vacancies(tmp_path, hh_vacancies_Vacancy):
+    """Тест на добавление вакансий"""
+    filename = tmp_path / "test_vacancies.json"
+    saver = JSONSaver(filename=str(filename))
+
+    # Создаем объект Vacancy
+    vacancies = hh_vacancies_Vacancy
+
+    # Добавляем вакансию
+    saver.add_vacancies(vacancies)
+
+    # Проверяем, что файл не пустой
+    with open(filename, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    assert len(data) == 2
+    assert data[0]["name"] == "Python Developer"
+    assert data[0]["salary"] == 120000
+    assert data[0]["url"] == "https://hh.ru/vacancy/123"
+    assert data[0]["description"] == "Опыт работы с Django. Разработка веб-сервисов"
+
+    # Проверяем, что дубликаты не добавляются
+    saver.add_vacancies(vacancies)
+    with open(filename, "r", encoding="utf-8") as f:
+        data_after = json.load(f)
+
+    assert len(data_after) == 2  # дубликат не записан

@@ -51,6 +51,7 @@ def test_vacancy_compare(vacancy_1, vacancy_2):
 
 
 def test_cast_to_object_list(hh_vacancies):
+    """Тестирование преобразования списка словарей (из JSON) в список объектов Vacancy"""
     result = Vacancy.cast_to_object_list(hh_vacancies)
     assert result == [
         Vacancy(
@@ -59,4 +60,34 @@ def test_cast_to_object_list(hh_vacancies):
         Vacancy(
             "Java Developer", "https://hh.ru/vacancy/321", 140000, "Опыт работы с Java Разработка веб-сервисов Java"
         ),
+    ]
+
+
+def test_filter_vacancies(hh_vacancies_Vacancy):
+    """Тест фильтрации вакансий по ключевому слову"""
+    result = Vacancy.filter_vacancies(hh_vacancies_Vacancy, 'python')
+    assert result == [Vacancy(
+            name="Python Developer",
+            url="https://hh.ru/vacancy/123",
+            salary={"from": 120000, "to": 150000, "currency": "RUR"},
+            description="Опыт работы с Django. Разработка веб-сервисов",
+        )]
+
+
+def test_sort_vacancies(hh_vacancies_Vacancy):
+    """Тест сортировки вакансий по зарплате"""
+    result = Vacancy.sort_vacancies(hh_vacancies_Vacancy)
+    assert result == [
+        Vacancy(
+            name="Java Developer",
+            url="https://hh.ru/vacancy/321",
+            salary={"from": 140000, "to": 190000, "currency": "RUR"},
+            description="Опыт работы с Java. Разработка веб-сервисов Java",
+        ),
+        Vacancy(
+            name="Python Developer",
+            url="https://hh.ru/vacancy/123",
+            salary={"from": 120000, "to": 150000, "currency": "RUR"},
+            description="Опыт работы с Django. Разработка веб-сервисов",
+        )
     ]
