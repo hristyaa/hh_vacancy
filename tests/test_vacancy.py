@@ -40,3 +40,9 @@ def test_vacancy_compare(vacancy_1, vacancy_2):
     assert vacancy_1.__le__(vacancy_2) is False
     assert vacancy_1.__gt__(vacancy_2) is True
     assert vacancy_1.__ge__(vacancy_2) is True
+
+
+def test_cast_to_object_list(hh_vacancies):
+    result = Vacancy.cast_to_object_list(hh_vacancies)
+    assert result == [Vacancy('Python Developer', 'https://hh.ru/vacancy/123', 150000, 'Опыт работы с Django Разработка веб-сервисов'),
+    Vacancy('Java Developer', 'https://hh.ru/vacancy/321', 190000, 'Опыт работы с Java Разработка веб-сервисов Java')]

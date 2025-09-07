@@ -43,10 +43,37 @@ class Vacancy:
 
     @staticmethod
     def __validate_salary(salary):
-        if not salary or salary < 0:
+        if salary is None:
             return 0
-        return salary
+        if isinstance(salary, dict):
+            _from = salary.get("from") or 0
+            _to = salary.get("to") or 0
+            return max(_from, _to)
+        if isinstance(salary, int) and salary >= 0:
+            return salary
+        return 0
 
     @staticmethod
     def __validate_description(description):
         return description if description else "Описание отсутствует"
+
+    @classmethod
+    def cast_to_object_list(cls, data):
+        """Преобразование списка словарей (из JSON) в список объектов Vacancy"""
+        vacancies = []
+        for item in data:
+            snippet = item.get("snippet", {})
+            requirement = snippet.get("requirement", "")
+            responsibility = snippet.get("responsibility", "")
+
+            description = f"{requirement} {responsibility}".strip()
+
+            vacancies.append(
+                cls(
+                    name=item.get("name"),
+                    url=item.get("url"),
+                    salary=item.get("salary"),
+                    description=description
+                )
+            )
+        return vacancies

@@ -23,7 +23,10 @@ class JSONSaver(FileSaver):
     """Класс для работы с JSON-файлами"""
 
     def __init__(self, filename='vacancies.json'):
-        self.__filename = os.path.join("../data", filename)
+        directory = os.path.join("..", "data")
+        os.makedirs(directory, exist_ok=True)
+
+        self.__filename = os.path.join(directory, filename)
 
         if not os.path.exists(self.__filename):
             with open(self.__filename, 'w', encoding='utf-8') as file:

@@ -31,3 +31,28 @@ def vacancy_2():
 @pytest.fixture
 def vacancy_salary():
     return Vacancy(name="Разработчик Python", url="https://hh.ru/vacancy/err2", salary=-120000)
+
+
+@pytest.fixture
+def hh_vacancies():
+    return [
+        {
+            "name": "Python Developer",
+            "url": "https://hh.ru/vacancy/123",
+            "salary": {"from": 120000, "to": 150000, "currency": "RUR"},
+            "snippet": {
+                "requirement": "Опыт работы с Django",
+                "responsibility": "Разработка веб-сервисов"
+            }
+        },
+        {
+            "name": "Java Developer",
+            "url": "https://hh.ru/vacancy/321",
+            "salary": {"from": 140000, "to": 190000, "currency": "RUR"},
+            "snippet": {
+                "requirement": "Опыт работы с Java",
+                "responsibility": "Разработка веб-сервисов Java"
+            }
+        }
+    ]
+
