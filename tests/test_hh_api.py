@@ -1,10 +1,6 @@
-# import pytest
 from unittest.mock import Mock, patch
 
 from src.hh_api import VacancyAPI
-
-# from requests.exceptions import RequestException
-
 
 
 def test_vacancy_api_init(vacancy_api_1, vacancy_api_2):

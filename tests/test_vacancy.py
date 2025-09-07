@@ -9,7 +9,15 @@ def test_vacancy_init(vacancy_1):
     assert vacancy_1.url == "https://hh.ru/vacancy/1"
     assert vacancy_1.salary == 140000
     assert vacancy_1.description == "Описание отсутствует"
-    assert str(vacancy_1) == "Название вакансии: Тестировщик Python, зарплата: 140000"
+    assert (
+        str(vacancy_1)
+        == """Вакансия: Тестировщик Python
+Ссылка: https://hh.ru/vacancy/1
+Зарплата: 140000
+Описание: Описание отсутствует
+---"""
+    )
+
     assert repr(vacancy_1) == "Vacancy(Тестировщик Python, https://hh.ru/vacancy/1, 140000, Описание отсутствует)"
 
 
@@ -44,5 +52,11 @@ def test_vacancy_compare(vacancy_1, vacancy_2):
 
 def test_cast_to_object_list(hh_vacancies):
     result = Vacancy.cast_to_object_list(hh_vacancies)
-    assert result == [Vacancy('Python Developer', 'https://hh.ru/vacancy/123', 150000, 'Опыт работы с Django Разработка веб-сервисов'),
-    Vacancy('Java Developer', 'https://hh.ru/vacancy/321', 190000, 'Опыт работы с Java Разработка веб-сервисов Java')]
+    assert result == [
+        Vacancy(
+            "Python Developer", "https://hh.ru/vacancy/123", 120000, "Опыт работы с Django Разработка веб-сервисов"
+        ),
+        Vacancy(
+            "Java Developer", "https://hh.ru/vacancy/321", 140000, "Опыт работы с Java Разработка веб-сервисов Java"
+        ),
+    ]

@@ -29,9 +29,9 @@ class VacancyAPI(ABC):
             print(str(e))
             return None
 
-    def get_vacancies(self, **kwargs):
+    def get_vacancies(self, keyword):
         """Метод для получения вакансий"""
-        return self.__load_vacancies(**kwargs)
+        return self.__load_vacancies(keyword)
 
     @abstractmethod
     def __load_vacancies(self, keyword):
@@ -83,12 +83,12 @@ class HeadHunterAPI(VacancyAPI):
 #     print(f"Вакансии по запросу '{keyword}' не найдены.")
 
 
-# Создание экземпляра класса для работы с API сайтов с вакансиями
-hh_api = HeadHunterAPI()
-
-# Получение вакансий с hh.ru в формате JSON
-hh_vacancies = hh_api.get_vacancies(keyword="Python")
-
-print(hh_vacancies)
+# # Создание экземпляра класса для работы с API сайтов с вакансиями
+# hh_api = HeadHunterAPI()
+#
+# # Получение вакансий с hh.ru в формате JSON
+# hh_vacancies = hh_api.get_vacancies(keyword="Python")
+#
+# print(hh_vacancies)
 
 # print(hh_vacancies)

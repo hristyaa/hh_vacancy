@@ -1,6 +1,8 @@
+import json
+
 from src.file_saver import JSONSaver
 from src.vacancy import Vacancy
-import json
+
 
 def test_file_saver_init(tmp_path):
     """Тест на иницаилизацию класса JSONSaver"""
@@ -29,10 +31,7 @@ def test_add_vacancy(tmp_path):
 
     # Создаем объект Vacancy
     vacancy = Vacancy(
-        name="Python Developer",
-        url="https://hh.ru/vacancy/123",
-        salary=150000,
-        description="Опыт работы с Django"
+        name="Python Developer", url="https://hh.ru/vacancy/123", salary=150000, description="Опыт работы с Django"
     )
 
     # Добавляем вакансию

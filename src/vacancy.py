@@ -1,3 +1,6 @@
+from src.utils import strip_tags
+
+
 class Vacancy:
 
     __slots__ = ("name", "url", "salary", "description")
@@ -12,7 +15,13 @@ class Vacancy:
         return f"{self.__class__.__name__}({self.name}, {self.url}, {self.salary}, {self.description})"
 
     def __str__(self):
-        return f"Название вакансии: {self.name}, зарплата: {self.salary}"
+        return (
+            f"Вакансия: {self.name}\n"
+            f"Ссылка: {self.url}\n"
+            f"Зарплата: {self.salary}\n"
+            f"Описание: {self.description}\n"
+            f"{'-' * 3}"
+        )
 
     def __eq__(self, other):
         return self.salary == other.salary
@@ -46,9 +55,16 @@ class Vacancy:
         if salary is None:
             return 0
         if isinstance(salary, dict):
+
             _from = salary.get("from") or 0
             _to = salary.get("to") or 0
-            return max(_from, _to)
+            _currency = salary.get("currency")
+
+            if _currency != "RUR":
+                return 0
+            if _from == 0 and _to != 0:
+                return _to
+            return _from
         if isinstance(salary, int) and salary >= 0:
             return salary
         return 0
@@ -73,7 +89,31 @@ class Vacancy:
                     name=item.get("name"),
                     url=item.get("url"),
                     salary=item.get("salary"),
-                    description=description
+                    description=strip_tags(description),
                 )
             )
         return vacancies
+
+    @staticmethod
+    def filter_vacancies(vacancies, keywords):
+        """Фильтрует вакансии по ключевым словам в описании"""
+        filtered = []
+        for vacancy in vacancies:
+            if any(word.lower() in vacancy.description.lower() for word in keywords):
+                filtered.append(vacancy)
+        return filtered
+
+    @staticmethod
+    def sort_vacancies(vacancies):
+        """Возвращает отсортированные по зарплате вакансии"""
+
+        sorted_vacancies = sorted(vacancies, key=lambda vacancy: vacancy.salary, reverse=True)
+
+        return sorted_vacancies
+
+    @staticmethod
+    def get_top_vacancies(sorted_vacancies, n):
+        """Возвращает топ n вакансий"""
+
+        top_vacancies = sorted_vacancies[:n]
+        return top_vacancies
